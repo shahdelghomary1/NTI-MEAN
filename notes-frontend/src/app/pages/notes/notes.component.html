@@ -1,0 +1,35 @@
+<div class="container mt-4" style="max-width: 600px;">
+  <h2 class="mb-4">Your Notes</h2>
+
+  <form (ngSubmit)="addNote()" class="mb-3">
+    <input type="text" class="form-control mb-2"
+           [(ngModel)]="note.title" name="title"
+           placeholder="Note Title" required>
+    <small class="text-danger" *ngIf="error?.['title']">{{ error['title'] }}</small>
+
+    <textarea class="form-control mb-2"
+              [(ngModel)]="note.content" name="content"
+              placeholder="Note Content" required></textarea>
+    <small class="text-danger" *ngIf="error?.['content']">{{ error['content'] }}</small>
+
+    <button class="btn btn-primary w-100">Add Note</button>
+    <small class="text-danger d-block mt-2 text-center" *ngIf="error?.['general']">
+      {{ error['general'] }}
+    </small>
+  </form>
+
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let n of notes">
+      <h5>{{ n.title }}</h5>
+      <p>{{ n.content }}</p>
+      <button class="btn btn-sm btn-warning me-2"
+              (click)="updateNote(n._id, { title: n.title, content: n.content })">Update</button>
+      <button class="btn btn-sm btn-danger"
+              (click)="deleteNote(n._id)">Delete</button>
+    </li>
+  </ul>
+</div>
+
+
+
+
