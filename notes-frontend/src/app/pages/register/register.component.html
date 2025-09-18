@@ -2,41 +2,48 @@
   <h2 class="mb-4 text-center">Sign Up</h2>
 
   <form #registerForm="ngForm" (ngSubmit)="register()" novalidate>
-    <!-- Name -->
+   
     <div class="mb-3">
       <input type="text" class="form-control" placeholder="Name"
              [(ngModel)]="user.name" name="name" required minlength="2" #name="ngModel">
       <small class="text-danger" *ngIf="name.invalid && name.touched">
         Name is required (min 2 characters).
       </small>
+      <small class="text-danger" *ngIf="error['name']">{{ error['name'] }}</small>
     </div>
 
-    <!-- Email -->
+
     <div class="mb-3">
       <input type="email" class="form-control" placeholder="Email"
              [(ngModel)]="user.email" name="email" required email #email="ngModel">
       <small class="text-danger" *ngIf="email.invalid && email.touched">
         Valid email is required.
       </small>
+      <small class="text-danger" *ngIf="error['email']">{{ error['email'] }}</small>
     </div>
 
-    <!-- Password -->
+ 
     <div class="mb-3">
       <input type="password" class="form-control" placeholder="Password"
              [(ngModel)]="user.password" name="password" required minlength="6" #password="ngModel">
       <small class="text-danger" *ngIf="password.invalid && password.touched">
         Password must be at least 6 characters.
       </small>
+      <small class="text-danger" *ngIf="error['password']">{{ error['password'] }}</small>
     </div>
 
     <button class="btn btn-primary w-100" [disabled]="registerForm.invalid">Register</button>
   </form>
+
+ 
+  <p class="mt-3 text-center" 
+     [class.text-success]="message.startsWith('✅')" 
+     [class.text-danger]="message.startsWith('❌')">
+    {{ message }}
+  </p>
 
   <p class="mt-3 text-center">
     Already have an account?
     <a routerLink="/login">Login</a>
   </p>
 </div>
-
-
-

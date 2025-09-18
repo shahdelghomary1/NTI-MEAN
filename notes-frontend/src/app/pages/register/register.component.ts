@@ -14,23 +14,34 @@ import { CommonModule } from '@angular/common';
 export class RegisterComponent {
   user = { name: '', email: '', password: '' };
   error: { [key: string]: string } = {};
+  message = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
   register() {
+    this.error = {};
+    this.message = '';
+
     this.authService.register(this.user).subscribe({
       next: (res: any) => {
         this.authService.saveToken(res.token);
-        this.router.navigate(['/notes']);
+        this.message = '✅ Registration successful! Redirecting...';
+        setTimeout(() => {
+          this.router.navigate(['/notes']);
+        }, 1500);
       },
       error: (err) => {
         if (err.error?.errors) {
-          this.error = {};
+          // validation errors من الباك إند
           err.error.errors.forEach((e: any) => {
             this.error[e.param] = e.msg;
           });
+        } else {
+          // رسالة عامة
+          this.message = '❌ Registration failed. Please try again.';
         }
       }
     });
   }
 }
+
